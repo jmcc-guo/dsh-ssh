@@ -1,5 +1,7 @@
 # @jmcc-guo/dsh-ssh
 
+[English](README.md) · [简体中文](README.zh.md)
+
 ![License: MIT](https://img.shields.io/github/license/jmcc-guo/dsh-ssh.svg)
 ![Node](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)
 ![Type](https://img.shields.io/badge/type-ESM-blueviolet.svg)

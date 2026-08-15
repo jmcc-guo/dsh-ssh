@@ -1,0 +1,8 @@
+node_modules/
+.dsh-vision-toolkit/
+test/id_test
+test/id_test.pub
+test/shots/
+*.log
+test1.png
+

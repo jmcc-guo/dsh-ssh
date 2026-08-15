@@ -1,0 +1,63 @@
+{
+  "name": "@dsh-external/dsh-ssh",
+  "version": "0.1.0",
+  "description": "SSH terminal panel and AI connection manager for DeepSeek Harness: model-driven SSH connections (connect/exec/list/status/disconnect), auto-saved connection records, keep-alive + auto-reconnect, execution mutex, credential-safe auth, and an XShell-style multi-tab terminal panel in the Web GUI.",
+  "keywords": [
+    "deepseek",
+    "deepseek-harness",
+    "ssh",
+    "terminal",
+    "xshell",
+    "remote",
+    "agent",
+    "cordis"
+  ],
+  "license": "MIT",
+  "type": "module",
+  "packageManager": "pnpm@11.21.0",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml",
+    "README.md",
+    "README.zh.md",
+    "LICENSE"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-runtime",
+        "@deepseek-ai/dsh-client-locale"
+      ],
+      "platform": "web"
+    }
+  },
+  "dependencies": {
+    "ssh2": "^1.17.0",
+    "ws": "^8.21.0"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.0",
+    "@deepseek-ai/dsh-credentials": "^0.0.1",
+    "@deepseek-ai/dsh-settings": "^0.0.1",
+    "@deepseek-ai/dsh-tools": "^0.0.1",
+    "@deepseek-ai/schemastery": "^3.18.0"
+  },
+  "peerDependenciesMeta": {
+    "@deepseek-ai/dsh-host-webserver": {
+      "optional": true
+    }
+  }
+}

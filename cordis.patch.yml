@@ -1,0 +1,11 @@
+# @dsh-external/dsh-ssh bundle patch: mounts the plugin into a profile layer
+# stack. Runtime defaults live at the plugin's config boundary. Users override
+# them in their profile patch row with the same id, e.g.:
+#
+#   - id: dsh-ssh
+#     config:
+#       heartbeatIntervalMs: 20000
+#       reconnectMaxAttempts: 8
+- insert:
+    - id: dsh-ssh
+      name: '@dsh-external/dsh-ssh'

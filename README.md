@@ -136,6 +136,10 @@ then re-run:
 pnpm install
 ```
 
+Prefer a silent pure-JS install with no build at all? Set the same
+placeholder entries to `false` instead — the warning disappears, nothing is
+compiled, and ssh2 runs on its JS fallback:
+
 ### Peer-dependency warnings
 
 `pnpm peers check` may report "missing peer" for the `@deepseek-ai/*` packages

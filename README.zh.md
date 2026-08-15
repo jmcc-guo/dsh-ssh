@@ -75,6 +75,16 @@ allowBuilds:
 pnpm install
 ```
 
+想要**静默的纯 JS 安装、完全不编译**？把同样的占位条目改为 `false` 即可——警告消失、不编译任何原生模块，ssh2 直接使用 JS 回退实现：
+
+```yaml
+allowBuilds:
+  cpu-features: false
+  ssh2: false
+```
+
+然后重新执行 `pnpm install`。
+
 ### Peer 依赖警告
 
 `pnpm peers check` 可能报告 `@deepseek-ai/*` 的 "missing peer"，尽管 DSH 实际已提供：在 hoisted 的 profile 布局下，外部插件运行时从共享的 `profiles/node_modules` 解析宿主包，而 pnpm 的静态 peer 检查不跨该边界。该警告无害——插件可正常加载（已运行时验证）。

@@ -116,29 +116,14 @@ bundle graph are composed at boot).
 
 ## Troubleshooting
 
-### `ERR_PNPM_IGNORED_BUILDS` for ssh2 / cpu-features
+### ssh2 is bundled — no build steps needed
 
-pnpm 10+ blocks dependency build scripts by default (supply-chain policy).
-`ssh2` ships an optional native crypto binding; without it the plugin still
-works (pure-JS fallback), but to enable the native acceleration, allow the
-builds in the **profile's** `pnpm-workspace.yaml` (pnpm writes placeholder
-entries there automatically — replace them):
-
-```yaml
-allowBuilds:
-  cpu-features: true
-  ssh2: true
-```
-
-then re-run:
-
-```bash
-pnpm install
-```
-
-Prefer a silent pure-JS install with no build at all? Set the same
-placeholder entries to `false` instead — the warning disappears, nothing is
-compiled, and ssh2 runs on its JS fallback:
+`ssh2` and its full dependency closure are shipped **bundled inside the
+package** (`bundleDependencies`), so installing `@jmcc-guo/dsh-ssh` never runs
+dependency build scripts: no `allowBuilds` edits, no
+`ERR_PNPM_IGNORED_BUILDS`. ssh2 runs on its pure-JS implementation, which is
+fully functional (verified against a real SSH server); the optional native
+crypto binding is intentionally not compiled.
 
 ### Peer-dependency warnings
 

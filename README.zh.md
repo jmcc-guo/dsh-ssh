@@ -59,31 +59,9 @@ dsh plugin --profile web add <本仓库路径>
 
 ## 常见问题
 
-### `ERR_PNPM_IGNORED_BUILDS`（ssh2 / cpu-features）
+### ssh2 已捆绑内置——无需任何构建步骤
 
-pnpm 10+ 出于供应链安全策略默认阻止依赖的构建脚本。`ssh2` 自带可选的原生加密绑定；未构建时插件仍可正常工作（纯 JS 回退），如需启用原生加速，请在 **profile 的** `pnpm-workspace.yaml` 中允许构建（pnpm 会自动写入占位条目，替换即可）：
-
-```yaml
-allowBuilds:
-  cpu-features: true
-  ssh2: true
-```
-
-然后重新执行：
-
-```bash
-pnpm install
-```
-
-想要**静默的纯 JS 安装、完全不编译**？把同样的占位条目改为 `false` 即可——警告消失、不编译任何原生模块，ssh2 直接使用 JS 回退实现：
-
-```yaml
-allowBuilds:
-  cpu-features: false
-  ssh2: false
-```
-
-然后重新执行 `pnpm install`。
+`ssh2` 及其完整依赖闭包通过 `bundleDependencies` **直接打进 npm 包**，因此安装 `@jmcc-guo/dsh-ssh` 不会执行任何依赖构建脚本：无需修改 `allowBuilds`，也不会出现 `ERR_PNPM_IGNORED_BUILDS`。ssh2 以纯 JS 实现运行（功能完整，已经真实 SSH 服务器验证）；可选的原生加密绑定有意不编译。
 
 ### Peer 依赖警告
 

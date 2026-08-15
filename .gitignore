@@ -23,6 +23,7 @@ pnpm-debug.log*
 dist/
 coverage/
 *.tsbuildinfo
+*.tgz
 
 # OS / editor noise
 .DS_Store

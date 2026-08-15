@@ -1,4 +1,4 @@
-# @dsh-external/dsh-ssh bundle patch: mounts the plugin into a profile layer
+# @jmcc-guo/dsh-ssh bundle patch: mounts the plugin into a profile layer
 # stack. Runtime defaults live at the plugin's config boundary. Users override
 # them in their profile patch row with the same id, e.g.:
 #
@@ -8,4 +8,4 @@
 #       reconnectMaxAttempts: 8
 - insert:
     - id: dsh-ssh
-      name: '@dsh-external/dsh-ssh'
+      name: '@jmcc-guo/dsh-ssh'

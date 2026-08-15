@@ -1,4 +1,4 @@
-# @dsh-external/dsh-ssh
+# @jmcc-guo/dsh-ssh
 
 ![License: MIT](https://img.shields.io/github/license/jmcc-guo/dsh-ssh.svg)
 ![Node](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)

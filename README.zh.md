@@ -38,7 +38,7 @@ DeepSeek Harness（DSH）的 SSH 终端插件：AI 代理可在对话中自主�
 dsh plugin --profile web add @jmcc-guo/dsh-ssh
 
 # 或直接从 GitHub 安装
-dsh plugin --profile web add "github:jmcc-guo/dsh-ssh#v0.1.1"
+dsh plugin --profile web add "github:jmcc-guo/dsh-ssh#v0.1.3"
 
 # 或从本地目录安装
 dsh plugin --profile web add <本仓库路径>
@@ -56,6 +56,28 @@ dsh plugin --profile web add <本仓库路径>
 ```
 
 修改后重启 profile 进程生效（插件集与客户端 bundle 图在启动时组合）。
+
+## 常见问题
+
+### `ERR_PNPM_IGNORED_BUILDS`（ssh2 / cpu-features）
+
+pnpm 10+ 出于供应链安全策略默认阻止依赖的构建脚本。`ssh2` 自带可选的原生加密绑定；未构建时插件仍可正常工作（纯 JS 回退），如需启用原生加速，请在 **profile 的** `pnpm-workspace.yaml` 中允许构建（pnpm 会自动写入占位条目，替换即可）：
+
+```yaml
+allowBuilds:
+  cpu-features: true
+  ssh2: true
+```
+
+然后重新执行：
+
+```bash
+pnpm install
+```
+
+### Peer 依赖警告
+
+`pnpm peers check` 可能报告 `@deepseek-ai/*` 的 "missing peer"，尽管 DSH 实际已提供：在 hoisted 的 profile 布局下，外部插件运行时从共享的 `profiles/node_modules` 解析宿主包，而 pnpm 的静态 peer 检查不跨该边界。该警告无害——插件可正常加载（已运行时验证）。
 
 ## 设置命名空间（`dsh-ssh`）
 

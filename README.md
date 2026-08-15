@@ -94,7 +94,7 @@ screen.
 dsh plugin --profile web add @jmcc-guo/dsh-ssh
 
 # or directly from GitHub
-dsh plugin --profile web add "github:jmcc-guo/dsh-ssh#v0.1.1"
+dsh plugin --profile web add "github:jmcc-guo/dsh-ssh#v0.1.3"
 
 # or from a local checkout
 dsh plugin --profile web add <path-to-this-repo>
@@ -113,6 +113,36 @@ config in the profile patch with the same row id:
 
 Restart the profile process afterwards (plugin-set changes and the client
 bundle graph are composed at boot).
+
+## Troubleshooting
+
+### `ERR_PNPM_IGNORED_BUILDS` for ssh2 / cpu-features
+
+pnpm 10+ blocks dependency build scripts by default (supply-chain policy).
+`ssh2` ships an optional native crypto binding; without it the plugin still
+works (pure-JS fallback), but to enable the native acceleration, allow the
+builds in the **profile's** `pnpm-workspace.yaml` (pnpm writes placeholder
+entries there automatically — replace them):
+
+```yaml
+allowBuilds:
+  cpu-features: true
+  ssh2: true
+```
+
+then re-run:
+
+```bash
+pnpm install
+```
+
+### Peer-dependency warnings
+
+`pnpm peers check` may report "missing peer" for the `@deepseek-ai/*` packages
+even though DSH provides them: with the hoisted profile layout, external
+plugins resolve host packages at runtime from the shared `profiles/node_modules`
+tree, which pnpm's static peer check does not cross. The warnings are benign —
+the plugin loads fine (verified at runtime).
 
 ## Settings namespace (`dsh-ssh`)
 

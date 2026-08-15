@@ -1,8 +1,32 @@
+# Dependencies
 node_modules/
+
+# Tool caches
 .dsh-vision-toolkit/
+
+# Local test artifacts (never committed)
 test/id_test
 test/id_test.pub
 test/shots/
-*.log
 test1.png
 
+# Logs
+*.log
+pnpm-debug.log*
+
+# Environment & secrets
+.env
+.env.*
+!.env.example
+
+# Build / coverage output
+dist/
+coverage/
+*.tsbuildinfo
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp

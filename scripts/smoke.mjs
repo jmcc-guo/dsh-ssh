@@ -5,7 +5,11 @@
 import { mkdtempSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { SshManager } from '../lib/manager.js';
+
+// Local WSL test SSH server key (see test/id_test, not committed).
+const KEY_PATH = fileURLToPath(new URL('../test/id_test', import.meta.url));
 
 const HOME = mkdtempSync(join(tmpdir(), 'dsh-ssh-smoke-'));
 
@@ -44,7 +48,7 @@ let s1 = manager.statusOf('box-pw');
 check('no busy state on idle shell', s1.busyBy === null, JSON.stringify(s1.busyBy));
 
 // 2. key auth (ai-source; AI exec path)
-r = await manager.createRecord({ name: 'box-key', host: '127.0.0.1', port: 2222, user: 'root', auth: { privateKeyPath: 'E:/Creative/dsh-ssh/test/id_test' }, source: 'ai' });
+r = await manager.createRecord({ name: 'box-key', host: '127.0.0.1', port: 2222, user: 'root', auth: { privateKeyPath: KEY_PATH }, source: 'ai' });
 check('create key record', r.ok, r.error);
 c = await manager.connect('box-key');
 check('connect with key', c.ok, c.error);

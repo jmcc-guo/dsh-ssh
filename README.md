@@ -1,5 +1,9 @@
 # @dsh-external/dsh-ssh
 
+![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)
+![Node](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)
+![Type](https://img.shields.io/badge/type-ESM-blueviolet.svg)
+
 SSH terminal panel + AI connection manager for DeepSeek Harness (DSH).
 
 The AI agent can autonomously create, address, and tear down SSH connections
@@ -58,9 +62,9 @@ screen.
   while the terminal is focused. AI-run commands appear in the same
   scrollback with source tags. Multi-tab, ANSI colors, scrollback.
 - **Settings page** — "SSH Connections" under Settings manages everything:
-  create, edit, delete connections and their credentials (passwords / private
-  keys stored in the DSH credential store), connect/disconnect, and
-  user → ai transfer. The terminal column itself contains no CRUD.
+  create, edit (rename supported), delete connections and their credentials
+  (passwords / private keys stored in the DSH credential store), and
+  connect/disconnect. The terminal column itself contains no CRUD.
 - **Credential hygiene** — passwords and private keys live in the DSH
   credential store under generated references; the records file, logs and
   tool results never contain secret material; inline secrets in tool
@@ -70,6 +74,14 @@ screen.
   policy, timeouts, output caps, records path) can be overridden through the
   DSH settings system / profile patch.
 - **Bilingual UI** — Chinese and English copy.
+
+## Requirements
+
+- Node.js >= 18 (ESM)
+- pnpm (lockfile: `pnpm-lock.yaml`)
+- A DeepSeek Harness (DSH) installation with the `web` profile
+- For the test suite: a reachable SSH server (the included tests target a
+  local WSL OpenSSH instance; see `scripts/test-acceptance.mjs`)
 
 ## Install into a profile
 
@@ -146,6 +158,19 @@ them into the DSH credential store.
   PTY; while an AI command runs on an `ai`-source connection the host drops
   keystrokes (input mutex).
 
+## Repository layout
+
+```
+lib/index.js            plugin entry: config schema, manager + tools + panel channel wiring
+lib/manager.js          SshManager — connection lifecycle, keep-alive/reconnect, mutex, PTY shells
+lib/tools.js            model tools (ssh_connect / ssh_exec / ssh_exec_read / ssh_exec_kill / ...)
+lib/ws.js               panel WebSocket channel (/ssh/ws) with the browser-trust fence
+lib/store.js            persisted connection records
+lib/client.js           Web GUI client: multi-tab terminal panel + settings UI
+cordis.patch.yml        bundle patch that mounts the dsh-ssh row
+scripts/                test suites (see below)
+```
+
 ## Development / tests
 
 `scripts/` contains the acceptance suite and helpers (requires a reachable
@@ -154,7 +179,15 @@ SSH server; the included tests target a WSL OpenSSH instance):
 ```bash
 node scripts/test-acceptance.mjs   # 65-check manager-level acceptance suite
 node scripts/smoke.mjs             # quick smoke test
+node scripts/test-panel-ws.mjs     # panel WebSocket channel drive (test web instance on :3081)
+node scripts/test-rename.mjs       # focused rename test (no SSH server needed)
 ```
+
+## Contributing
+
+Issues and pull requests are welcome. Keep the model-facing surface (tool
+names, parameter semantics, result shapes) backward compatible, and make sure
+secrets never end up in logs, records or tool results.
 
 ## License
 

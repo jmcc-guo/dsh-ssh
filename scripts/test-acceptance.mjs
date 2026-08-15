@@ -1,7 +1,9 @@
 /**
  * dsh-ssh acceptance test suite — drives the REAL manager against the REAL
  * WSL OpenSSH server (127.0.0.1:2222; jmcc/testpass123 password auth,
- * root via E:/Creative/dsh-ssh/test/id_test key).
+ * root via the local test/id_test key). Requires a reachable SSH server;
+ * adapt SSH_HOST/SSH_PORT/PW_USER/PW and the WSL distro name below to your
+ * machine.
  *
  * Covers: multi-connection to one server, name addressing, mutex (human vs
  * AI), source isolation, transfer user→ai (incl. during a running user
@@ -12,10 +14,11 @@
 import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { execFileSync, spawn } from 'node:child_process';
 import { SshManager } from '../lib/manager.js';
 
-const KEY_PATH = 'E:/Creative/dsh-ssh/test/id_test';
+const KEY_PATH = fileURLToPath(new URL('../test/id_test', import.meta.url));
 const SSH_HOST = '127.0.0.1';
 const SSH_PORT = 2222;
 const PW_USER = 'jmcc';

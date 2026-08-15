@@ -1,5 +1,9 @@
 # @dsh-external/dsh-ssh
 
+![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)
+![Node](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)
+![Type](https://img.shields.io/badge/type-ESM-blueviolet.svg)
+
 DeepSeek Harness（DSH）的 SSH 终端插件：AI 代理可在对话中自主管理远程连接，Web GUI 右侧提供 XShell / Uniterm 风格的多标签终端面板，模型与人工执行的命令同屏实时显示。
 
 ## 功能
@@ -11,10 +15,17 @@ DeepSeek Harness（DSH）的 SSH 终端插件：AI 代理可在对话中自主�
 - **执行互斥（仅 `ai` 来源）**：AI 执行期间终端输入被服务器端丢弃并显示"AI 正在执行中…"；AI 对"共享终端 shell 仍活跃"的连接 `ssh_exec` 会等待其静默（默认 2 秒无输出/输入）或返回"连接忙"。
 - **标签联动**：人工关闭标签 → 立即断开（无确认弹框）；AI 断开 → 标签保留显示已断开、可一键重连；模型自动建连成功 → 自动打开/复用标签。标签栏 **"+"** 按钮可打开已保存连接（**每个选择都会新建一个标签/会话——即使同一连接已在其他标签中连接**）或手动输入新建连接。
 - **实时终端分栏**：终端面板打开时位于 DSH 原生右侧详情列（对话区收缩，不遮挡）；关闭后**原始右列（工具详情）原样恢复**，右侧细条可重新打开面板。每条连接持有一个**真实交互式 shell（PTY）**：登录横幅（motd / Last login）、远端提示符 `user@host:路径$`、输入回显、`cd` 后路径跟随变化——与原生 SSH 客户端观感一致；**没有独立输入框、没有复制按钮**，点击终端后直接键入，击键直达远端 shell（支持方向键、Tab、Ctrl-C、粘贴、IME）；聚焦后显示闪烁块光标；AI 执行的命令以来源标记同屏显示；多标签、ANSI 颜色、滚动回看。
-- **设置页管理连接**：设置 → "SSH 连接" 页面集中管理新建、编辑、删除连接及其凭据（密码/私钥存入 DSH 凭证库）、连接/断开、转移给 AI。终端分栏内不含增删改功能。
+- **设置页管理连接**：设置 → "SSH 连接" 页面集中管理新建、编辑（可重命名）、删除连接及其凭据（密码/私钥存入 DSH 凭证库）、连接/断开。终端分栏内不含增删改功能。
 - **凭证安全**：密码/私钥只进 DSH 凭证库（生成式引用），记录文件、日志、工具返回均不含明文；工具参数内联密钥被拒绝；认证失败返回脱敏的可读原因。
 - **设置**：`dsh-ssh` 设置命名空间可覆盖心跳、重连策略、超时、输出上限、记录文件路径等。
 - **中英文双语**界面。
+
+## 环境要求
+
+- Node.js >= 18（ESM）
+- pnpm（锁文件：`pnpm-lock.yaml`）
+- 带 `web` profile 的 DeepSeek Harness（DSH）安装
+- 测试套件需要可达的 SSH 服务（自带测试以本地 WSL OpenSSH 实例为目标，见 `scripts/test-acceptance.mjs`）
 
 ## 安装
 
@@ -71,12 +82,33 @@ dsh plugin --profile web add <本仓库路径>
 - 密钥只存在于凭证库：记录文件仅保存引用，错误信息脱敏，日志无密钥。
 - 命令经远端真实 PTY 执行：ANSI 输出、交互程序、SIGINT 终止均可用；用户击键经 PTY 直达远端 shell，AI 执行期间（ai 来源）输入由服务端丢弃。
 
+## 仓库结构
+
+```
+lib/index.js            插件入口：配置 schema、manager + 工具 + 面板通道装配
+lib/manager.js          SshManager —— 连接生命周期、保活/重连、互斥、PTY shell
+lib/tools.js            模型工具（ssh_connect / ssh_exec / ssh_exec_read / ssh_exec_kill / ...）
+lib/ws.js               面板 WebSocket 通道（/ssh/ws，含浏览器信任围栏）
+lib/store.js            连接记录持久化
+lib/client.js           Web GUI 客户端：多标签终端面板 + 设置页 UI
+cordis.patch.yml        bundle patch，挂载 dsh-ssh 行
+scripts/                测试套件（见下文）
+```
+
 ## 测试
 
+`scripts/` 内含验收套件与辅助脚本（需要可达的 SSH 服务；自带测试以 WSL OpenSSH 实例为目标）：
+
 ```bash
-node scripts/test-acceptance.mjs   # 65 项管理层验收套件（需可达的 SSH 服务）
+node scripts/test-acceptance.mjs   # 65 项管理层验收套件
 node scripts/smoke.mjs             # 快速冒烟测试
+node scripts/test-panel-ws.mjs     # 面板 WebSocket 通道驱动（测试 web 实例 :3081）
+node scripts/test-rename.mjs       # 重命名专项测试（无需 SSH 服务）
 ```
+
+## 参与贡献
+
+欢迎提交 Issue 与 Pull Request。请保持模型可见接口（工具名、参数语义、返回结构）向后兼容，并确保密钥绝不进入日志、记录文件或工具返回。
 
 ## License
 

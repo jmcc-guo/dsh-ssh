@@ -1,6 +1,6 @@
 {
   "name": "@jmcc-guo/dsh-ssh",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "SSH terminal panel and AI connection manager for DeepSeek Harness: model-driven SSH connections (connect/exec/list/status/disconnect), auto-saved connection records, keep-alive + auto-reconnect, execution mutex, credential-safe auth, and an XShell-style multi-tab terminal panel in the Web GUI.",
   "keywords": [
     "deepseek",

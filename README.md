@@ -1,8 +1,10 @@
 # @dsh-external/dsh-ssh
 
-![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)
+![License: MIT](https://img.shields.io/github/license/jmcc-guo/dsh-ssh.svg)
 ![Node](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)
 ![Type](https://img.shields.io/badge/type-ESM-blueviolet.svg)
+
+> AI-managed SSH connections with a live multi-tab terminal panel for DeepSeek Harness.
 
 SSH terminal panel + AI connection manager for DeepSeek Harness (DSH).
 

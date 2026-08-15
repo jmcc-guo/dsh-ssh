@@ -1,8 +1,10 @@
 # @dsh-external/dsh-ssh
 
-![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)
+![License: MIT](https://img.shields.io/github/license/jmcc-guo/dsh-ssh.svg)
 ![Node](https://img.shields.io/badge/node-%3E%3D18-brightgreen.svg)
 ![Type](https://img.shields.io/badge/type-ESM-blueviolet.svg)
+
+> DeepSeek Harness 的 SSH 终端插件：AI 自主管理连接 + XShell 风格多标签实时终端面板。
 
 DeepSeek Harness（DSH）的 SSH 终端插件：AI 代理可在对话中自主管理远程连接，Web GUI 右侧提供 XShell / Uniterm 风格的多标签终端面板，模型与人工执行的命令同屏实时显示。
 

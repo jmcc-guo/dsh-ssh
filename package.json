@@ -5,12 +5,15 @@
   "keywords": [
     "deepseek",
     "deepseek-harness",
+    "dsh",
+    "dsh-plugin",
     "ssh",
     "terminal",
     "xshell",
     "remote",
     "agent",
-    "cordis"
+    "cordis",
+    "plugin"
   ],
   "license": "MIT",
   "publishConfig": {

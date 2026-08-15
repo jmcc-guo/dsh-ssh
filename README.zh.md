@@ -36,7 +36,7 @@ DeepSeek Harness（DSH）的 SSH 终端插件：AI 代理可在对话中自主�
 dsh plugin --profile web add @jmcc-guo/dsh-ssh
 
 # 或直接从 GitHub 安装
-dsh plugin --profile web add "github:jmcc-guo/dsh-ssh#v0.1.0"
+dsh plugin --profile web add "github:jmcc-guo/dsh-ssh#v0.1.1"
 
 # 或从本地目录安装
 dsh plugin --profile web add <本仓库路径>
@@ -50,6 +50,7 @@ dsh plugin --profile web add <本仓库路径>
   config:
     heartbeatIntervalMs: 20000
     reconnectMaxAttempts: 8
+    outputLimitBytes: 2097152
 ```
 
 修改后重启 profile 进程生效（插件集与客户端 bundle 图在启动时组合）。

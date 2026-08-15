@@ -92,7 +92,7 @@ screen.
 dsh plugin --profile web add @jmcc-guo/dsh-ssh
 
 # or directly from GitHub
-dsh plugin --profile web add "github:jmcc-guo/dsh-ssh#v0.1.0"
+dsh plugin --profile web add "github:jmcc-guo/dsh-ssh#v0.1.1"
 
 # or from a local checkout
 dsh plugin --profile web add <path-to-this-repo>

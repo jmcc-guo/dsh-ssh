@@ -64,7 +64,11 @@ screen.
   the terminal and type; keystrokes go straight into the remote shell
   (arrows, Tab, Ctrl-C, paste, IME supported). A blinking block cursor shows
   while the terminal is focused. AI-run commands appear in the same
-  scrollback with source tags. Multi-tab, ANSI colors, scrollback.
+  scrollback with source tags. Multi-tab, ANSI colors, scrollback. The view
+   stays pinned to the newest output as it arrives — even large output bursts
+   follow to the bottom; scrolling up to read history is respected (no forced
+   jump), but whenever the AI starts operating the connection the terminal
+   slides back to the bottom so the AI's live output is visible.
 - **Settings page** — "SSH Connections" under Settings manages everything:
   create, edit (rename supported), delete connections and their credentials
   (passwords / private keys stored in the DSH credential store), and
